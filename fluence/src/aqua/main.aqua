@@ -1,0 +1,19 @@
+aqua Main
+
+import "@fluencelabs/aqua-lib/builtin.aqua"
+import "@fluencelabs/aqua-lib/subnet.aqua"
+
+use "deals.aqua"
+use "hosts.aqua"
+import "services.aqua"
+
+-- IMPORTANT: Add exports for all functions that you want to run
+export helloWorld, translate, Faucet
+
+service Faucet("faucet"):
+    source(image: []i32) -> []i32
+
+func translate(relay_id: PeerId, peer: PeerId, image: []i32) -> []i32:
+    on peer via relay_id:
+        res <- Faucet.source(image)
+    <- res
